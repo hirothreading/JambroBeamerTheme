@@ -1,6 +1,7 @@
 \documentclass[10pt,itemsep]{beamer}
 \usetheme{jambro}
 \graphicspath{{./graphics/}}
+\input{math.sty}                % math-for-macro shortcuts (\bp, \E, \od, \Ac, \a, \D, ...)
 \renewcommand{\memouser}{ACB}   % set default annotation username (put your initials here)
 
 % Authors/institutes/date/etc
@@ -287,7 +288,7 @@
         \pause
         \item \texttt{\textbackslash lapisboxeq\{\textit{symbol}\}} can highlight objects in equations, as well as set colors and labels with option \texttt{[color=\textit{mycolor},label=\textit{mylabel}]\{\textit{text}\}}
         \begin{equation*}
-            y_{t} = \alpha + \lapisboxeq[color=tomato,label=box1]{\beta x_t} + u_{t} \vspace{-.3cm}
+            y_{t} = \a + \lapisboxeq[color=tomato,label=box1]{\b x_t} + u_{t} \vspace{-.3cm}
         \end{equation*}
         \pause
         \item Labels allow to add arrows and comments as before
@@ -311,11 +312,11 @@
             \vspace{.2cm}\tablesize
             \begin{tabularx}{\textwidth}{lY}
                 \toprule
-                Dep. Variable: spread ($\Delta cs_{ij}$) 	& (1)\\
+                Dep. Variable: spread ($\D cs_{ij}$) 	& (1)\\
                 \midrule
                 & {Baseline Specification} \\
                 \midrule
-                \rowcolor{gray!10} Coeff. ($\beta_1$) 		&  \lapisbox[color=tomato,label=box1]{21.15***} \\
+                \rowcolor{gray!10} Coeff. ($\b_1$) 		&  \lapisbox[color=tomato,label=box1]{21.15***} \\
                 &   (7.35) \\
                 \midrule
                 \rowcolor{gray!10} Double clustering 		& Yes \\
@@ -510,11 +511,11 @@
             \vspace{.2cm}\tablesize
             \begin{tabularx}{\textwidth}{lY}
                 \toprule
-                Dep. Variable: spread ($\Delta cs_{ij}$) 	& (1)\\
+                Dep. Variable: spread ($\D cs_{ij}$) 	& (1)\\
                 \midrule
                 & {Baseline Specification} \\
                 \midrule
-                \rowcolor{gray!10} Coeff. ($\beta_1$) 		&  21.15*** \\
+                \rowcolor{gray!10} Coeff. ($\b_1$) 		&  21.15*** \\
                 &   (7.35) \\
                 \midrule
                 \rowcolor{gray!10} Double clustering 		& Yes \\
@@ -542,11 +543,11 @@
             \vspace{.2cm}\tablesize
             \begin{tabularx}{\textwidth}{lS}
                 \toprule
-                Dep. Variable: spread ($\Delta cs_{ij}$) 	& (1)\\
+                Dep. Variable: spread ($\D cs_{ij}$) 	& (1)\\
                 \midrule
                 & {Baseline Specification} \\
                 \midrule
-                \rowcolor{gray!10} Coeff. ($\beta_1$) 		&  21.15*** \\
+                \rowcolor{gray!10} Coeff. ($\b_1$) 		&  21.15*** \\
                 &   (7.35) \\
                 \midrule
                 \rowcolor{gray!10} Double clustering 		& Yes \\
@@ -575,11 +576,11 @@
             \vspace{.2cm}\tablesize
             \begin{tabularx}{\textwidth}{lY}
                 \toprule
-                Dep. Variable: spread ($\Delta cs_{ij}$) 	& (1)\\
+                Dep. Variable: spread ($\D cs_{ij}$) 	& (1)\\
                 \midrule
                 & {Baseline Specification} \\
                 \midrule
-                \rowcolor{gray!10} Coeff. ($\beta_1$) 		&  21.15*** \\
+                \rowcolor{gray!10} Coeff. ($\b_1$) 		&  21.15*** \\
                 &   (7.35) \\
                 \midrule
                 \rowcolor{gray!10} Double clustering 		& Yes \\
@@ -677,7 +678,7 @@
             % Axes
             \draw[thick, ->, >=stealth', line join=miter,<->](3,0) 
             node(xline)[below,xshift=-2.5cm, yshift=-.1cm] {\small{\hand Capital $(K)$}} -| (0,2.5) 
-            node(yline)[above,rotate=90,xshift=-2.5cm, yshift=1cm] {\small{\hand Credit Spread $\left(R^B/R\right)$}};
+            node(yline)[above,rotate=90,xshift=-2.5cm, yshift=1cm] {\small{\hand Credit Spread $\bp{R^B/R}$}};
             % Demand
             \draw[scale=0.5,domain=1.7:2.9,smooth,variable=\x,thick,gray,opacity=0.6]  plot ({\x}, {3-4*ln(\x-1)}) node[right, opacity=1] {\footnotesize{\hand Demand $(K^D_{j,\ell})$}};
             % Supply LOW
@@ -686,7 +687,7 @@
             \draw[scale=0.5,domain=1.2:2.35,smooth,variable=\x,thick,red] plot ({\x},  {1+2*(\x-1.2)^2}) node[right] {\footnotesize{\hand Supply $(K^S_{j,\ell})$}};
             % Equilibria
             \node[circle,draw=black, fill=red,inner sep=1.25pt] at (1.05,1.3) (int1) {};
-            \node[label=\footnotesize  $\mathcal{A}_\ell$] at (0.89,1.12) (int1) {};
+            \node[label=\footnotesize  $\Ac_\ell$] at (0.89,1.12) (int1) {};
         \end{tikzpicture}
         \begin{tikzpicture}[scale=1.9, important line/.style={thick}, dashed line/.style={dashed, thin}, every node/.style={color=black}, dot/.style={circle,fill=black,minimum size=5.5pt,inner sep=0pt,outer sep=-1pt}]
             % Axes
@@ -700,7 +701,7 @@
             \draw[scale=0.5,domain=2:3.5,smooth,variable=\x,thick,main] plot  ({\x}, {1+0.6*(\x-2)^2}) node[right] {\footnotesize{\hand Supply $(K^S_{j,h})$}};
             % Equilibria
             \node[circle,draw=black, fill=main,inner sep=1.25pt] at (1.29,0.6) (int1) {};
-            \node[label=\footnotesize  $\mathcal{A}_h$] at (1.45,0.35) (int1) {};
+            \node[label=\footnotesize  $\Ac_h$] at (1.45,0.35) (int1) {};
         \end{tikzpicture}
     \end{center}
 \end{frame}
@@ -808,7 +809,7 @@
     {Symbols and utilities}
     \begin{itemize}
         \item Check and cross marks with \texttt{\textbackslash cmark} and \texttt{\textbackslash xmark}: \quad \cmark\ correct \quad \xmark\ incorrect\bigskip
-        \item Math shorthand \texttt{\textbackslash EE} for $\mathbb{E}$: write $\EE[x_t \mid \mathcal{F}_{t-1}]$ instead of \texttt{\$\textbackslash mathbb\{E\}\$}\bigskip
+        \item Math shorthand \texttt{\textbackslash EE} for $\mathbb{E}$: write $\EE[x_t \mid \Fc_{t-1}]$ instead of \texttt{\$\textbackslash mathbb\{E\}\$}; \texttt{math.sty} adds the parens-aware $\E[t-1]{x_t}$\bigskip
         \item Significance stars in tables with \texttt{\textbackslash sym\{***\}}: renders as \sym{***} but marks stars as machine-readable\bigskip
         \item Font sizes for dense layouts:
         \begin{itemize}

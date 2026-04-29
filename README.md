@@ -14,6 +14,32 @@ Its main features include annotation tools for text, figures, and tables using T
 
 To use the theme, simply download the `beamerthemejambro.sty` to the folder containing your presentation (or install it in your local TeX tree). Then load the theme using `\usetheme{jambro}` in the preamble of your Beamer document.
 
+## Math shortcuts for macroeconomists
+
+This version also bundles `math.sty`, a companion file of compact math-mode macros adapted from [pmichaillat/math-for-macro](https://github.com/pmichaillat/math-for-macro). It is convenient for typesetting macro/finance-style equations without writing out long primitives every time.
+
+Highlights:
+
+- **Brackets** that auto-size to their argument: `\bp{x}`, `\bs{x}`, `\bc{x}`, `\ba{x}`, `\abs{x}`, `\norm{v}`, `\floor{x}`, `\ceil{x}`
+- **Statistical operators** with optional subscript and grouped argument: `\E[t]{X_{t+1}}`, `\P{A \mid B}`, `\var[t]{x_{t+1}}`, `\cov{X,Y}`, `\corr{X,Y}`, `\sd{X}`, `\se{\wh{\b}}`
+- **Parens-aware** `\ln{1+x}`, `\exp{-r t}`; indexed `\max[i]{x_i}`, `\sup[t]{X_t}`; plus `\argmax`, `\argmin`, `\ind{y>0}`
+- **Derivatives and elasticities**: `\od{y}{x}`, `\od[2]{y}{x}`, `\pd{u}{x}`, `\pd{u}{x}{x=0}`, `\oe{Y}{P}`, `\pe{Y}{P}{P_0}`
+- **Convergence relations**: `\iid`, `\asto`, `\pto`, `\dto`; logical `\implies`, `\iff`
+- **Math accents**: `\ubar{x}`, `\ul{x}`, `\oa{x}`, `\ol{x}`, `\wh{x}`, `\wt{x}`
+- **Greek shortcuts** (`\a, \b, \g, \d, \e, \D, \L, \S, \T, \F, \O`, …), **blackboard** (`\R, \N, \Z, \Q, \C, \V`), and **calligraphic** (`\Ac, \Bc, \Fc, \Nc, …, \Zc`)
+
+To enable, drop `math.sty` next to your `.tex` file and load it once after the theme:
+
+```
+\documentclass[10pt,itemsep]{beamer}
+\usetheme{jambro}
+\input{math.sty}
+```
+
+A self-contained showcase deck is provided in `Demo_math.tex` (compiled to `Demo_math.pdf`).
+
+**Caveat — Greek vs. text accents.** The lowercase Greek shortcuts shadow TeX's text-accent macros (`\b`, `\c`, `\d`, `\h`, `\l`, `\o`, `\r`, `\t`, `\u`). This is fine for English decks, but if you also typeset diacritics (e.g. `\c{c}`, `\b{a}`) you will need to use the explicit math names (`\beta`, `\delta`, …) instead of the shortcuts.
+
 ## Manual and examples
 
 A [slide deck](https://github.com/ambropo/JambroBeamerTheme/blob/main/Demo.pdf "Demo") (`Demo.pdf` and corresponding `Demo.tex` file) provides more information on the features of the theme and a series of examples.

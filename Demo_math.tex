@@ -1,0 +1,154 @@
+% Demo_math.tex — Math shortcut demonstrations
+%
+% Self-contained companion to Demo.tex. Showcases the macros provided by
+% math.sty (adapted from pmichaillat/math-for-macro) inside the Jambro theme.
+%
+% Compile with:  pdflatex Demo_math.tex
+%
+% Note: this is kept as a separate file because adding a new \section{...}
+% to Demo.tex shifts beamer's footer section navigation, which in turn
+% re-resolves the absolute coordinates of TikZ overlay arrows on earlier
+% slides. The standalone file avoids that interaction.
+
+\documentclass[10pt,itemsep]{beamer}
+\usetheme{jambro}
+\input{math.sty}
+\renewcommand{\memouser}{ACB}
+
+\title[]{Math Shortcuts (math.sty)}
+\author[]{Jambro Beamer Theme}
+\date{\today}
+
+\begin{document}
+
+%=============================================================
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+%.......................................................
+
+%=============================================================
+\section{Math Shortcuts}
+\begin{frame}
+    \begin{eqnarray*}
+        &\text{{\huge \textbf{Math Shortcuts}}}\\
+        &\text{{\huge \textbf{(\texttt{math.sty})}}}\\
+    \end{eqnarray*}
+\end{frame}
+
+%=============================================================
+\begin{frame}
+    {Math shortcuts: overview}
+    \begin{itemize}
+        \item Jambro ships with \texttt{math.sty}, a companion file of compact math-mode macros adapted from \texttt{pmichaillat/math-for-macro}
+        \begin{itemize}
+            \item Brackets and norms: \texttt{\textbackslash bp}, \texttt{\textbackslash bs}, \texttt{\textbackslash abs}, \texttt{\textbackslash norm}, \ldots
+            \item Statistical operators: \texttt{\textbackslash E}, \texttt{\textbackslash var}, \texttt{\textbackslash cov}, \texttt{\textbackslash corr}, \texttt{\textbackslash sd}, \texttt{\textbackslash P}
+            \item Calculus: \texttt{\textbackslash od}, \texttt{\textbackslash pd}, \texttt{\textbackslash oe}, \texttt{\textbackslash pe}
+            \item Greek (\texttt{\textbackslash a}, \texttt{\textbackslash b}, \ldots), blackboard ($\R$, $\N$, $\Z$), and calligraphic ($\Ac$, $\Bc$, \ldots, $\Zc$)
+        \end{itemize}
+        \item Load it once in the preamble, after the theme: \texttt{\textbackslash usetheme\{jambro\}} \quad then \quad \texttt{\textbackslash input\{math.sty\}}
+        \item Caveat: Greek shortcuts shadow TeX text-accent macros (\texttt{\textbackslash b}, \texttt{\textbackslash c}, \texttt{\textbackslash d}, \texttt{\textbackslash u}, \texttt{\textbackslash t}, \texttt{\textbackslash o}); fine for English decks, watch out if you also typeset diacritics
+    \end{itemize}
+\end{frame}
+
+%=============================================================
+\begin{frame}[t]
+    {Brackets and delimiters}
+    \begin{itemize}
+        \item Auto-sized brackets that wrap their argument
+        \begin{itemize}
+            \item \texttt{\textbackslash bp\{x\}} $\to$ $\bp{x}$, \texttt{\textbackslash bs\{x\}} $\to$ $\bs{x}$, \texttt{\textbackslash bc\{x\}} $\to$ $\bc{x}$, \texttt{\textbackslash ba\{x\}} $\to$ $\ba{x}$
+            \item \texttt{\textbackslash of\{x\}} $\to$ $\of{x}$ for function arguments
+        \end{itemize}
+        \item Norms, absolute values, floor, ceiling
+        \begin{itemize}
+            \item $\abs{x}$, $\norm{v}$, $\floor{x}$, $\ceil{x}$ via \texttt{\textbackslash abs}, \texttt{\textbackslash norm}, \texttt{\textbackslash floor}, \texttt{\textbackslash ceil}
+            \item Non-stretching variants \texttt{\textbackslash absx}, \texttt{\textbackslash normx}, \texttt{\textbackslash floorx}, \texttt{\textbackslash ceilx} for inline text
+        \end{itemize}
+        \item Brackets scale to fit tall arguments
+        \begin{equation*}
+            \abs{\frac{1}{1+x^{2}}} \quad\quad \norm{\sum_{i=1}^{n} x_{i}\, e_{i}} \quad\quad \floor{\frac{n}{2}} \quad\quad \ba{u, v}
+        \end{equation*}
+    \end{itemize}
+\end{frame}
+
+%=============================================================
+\begin{frame}[t]
+    {Operators and statistical functions}
+    \begin{itemize}
+        \item Expectation, probability, and moments take an optional subscript and a grouped argument
+        \begin{itemize}
+            \item \texttt{\textbackslash E\{X\}} $\to$ $\E{X}$, \texttt{\textbackslash E[t]\{X\_\{t+1\}\}} $\to$ $\E[t]{X_{t+1}}$
+            \item $\P{A \mid B}$, $\var[t]{x_{t+1}}$, $\cov{X,Y}$, $\corr{X,Y}$, $\sd{X}$, $\se{\wh{\b}}$
+        \end{itemize}
+        \item Logarithm and exponential become parens-aware when given an argument
+        \begin{itemize}
+            \item Bare \texttt{\textbackslash ln} $\to$ $\ln$; \texttt{\textbackslash ln\{1+x\}} $\to$ $\ln{1+x}$; \texttt{\textbackslash exp\{-r t\}} $\to$ $\exp{-r t}$
+        \end{itemize}
+        \item Indexed extrema: $\max[i]{x_i}$, $\min[i]{x_i}$, $\sup[t]{X_t}$, $\inf[\t]{f(\t)}$
+        \item \texttt{\textbackslash argmax}, \texttt{\textbackslash argmin}, \texttt{\textbackslash ind} (indicator)
+        \begin{equation*}
+            \E{X+Y} = \E{X} + \E{Y}, \qquad \var{X} = \E{X^{2}} - \E{X}^{2}, \qquad \ind{y > 0}
+        \end{equation*}
+    \end{itemize}
+\end{frame}
+
+%=============================================================
+\begin{frame}[t]
+    {Derivatives and elasticities}
+    \begin{itemize}
+        \item Ordinary derivatives: \texttt{\textbackslash od\{f\}\{x\}} and higher orders via \texttt{\textbackslash od[2]\{f\}\{x\}}
+        \begin{equation*}
+            \od{y}{x} \qquad \od[2]{y}{x} \qquad \odx{y}{x}\ \text{(text variant)}
+        \end{equation*}
+        \item Partial derivatives, with optional evaluation point
+        \begin{equation*}
+            \pd{u}{x} \qquad \pd[2]{u}{x} \qquad \pd{u}{x}{x = 0}
+        \end{equation*}
+        \item Ordinary and partial elasticities
+        \begin{equation*}
+            \oe{Y}{P} \;=\; \od{\ln{Y}}{\ln{P}} \qquad\qquad \pe{Y}{P}{P_{0}}
+        \end{equation*}
+    \end{itemize}
+\end{frame}
+
+%=============================================================
+\begin{frame}[t]
+    {Logical, statistical, and accent shortcuts}
+    \begin{itemize}
+        \item Logical relations: $X \implies Y$ via \texttt{\textbackslash implies}, $X \iff Y$ via \texttt{\textbackslash iff}
+        \item Statistical convergence
+        \begin{itemize}
+            \item $X_{n} \iid F$ \texttt{(\textbackslash iid)}, $X_{n} \asto X$ \texttt{(\textbackslash asto)}, $X_{n} \pto X$ \texttt{(\textbackslash pto)}, $X_{n} \dto X$ \texttt{(\textbackslash dto)}
+        \end{itemize}
+        \item Math accents
+        \begin{itemize}
+            \item $\ubar{x}$ \texttt{(\textbackslash ubar)}, $\ul{x}$ \texttt{(\textbackslash ul)}, $\oa{x}$ \texttt{(\textbackslash oa)}, $\ol{x}$ \texttt{(\textbackslash ol)}, $\wh{x}$ \texttt{(\textbackslash wh)}, $\wt{x}$ \texttt{(\textbackslash wt)}
+        \end{itemize}
+        \item Putting it together
+        \begin{equation*}
+            \wh{\b}_{n} \pto \b, \qquad \sqrt{n}\,\bp{\wh{\b}_{n} - \b} \dto \Nc\bp{0,\, \s^{2}}
+        \end{equation*}
+    \end{itemize}
+\end{frame}
+
+%=============================================================
+\begin{frame}[t]
+    {Greek, blackboard, and calligraphic letters}
+    \begin{itemize}
+        \item Lowercase Greek collapse to a single character
+        \begin{itemize}
+            \item \texttt{\textbackslash a}\,$\a$, \texttt{\textbackslash b}\,$\b$, \texttt{\textbackslash g}\,$\g$, \texttt{\textbackslash d}\,$\d$, \texttt{\textbackslash e}\,$\e$, \texttt{\textbackslash z}\,$\z$, \texttt{\textbackslash h}\,$\h$, \texttt{\textbackslash t}\,$\t$, \texttt{\textbackslash k}\,$\k$, \texttt{\textbackslash l}\,$\l$, \texttt{\textbackslash m}\,$\m$, \texttt{\textbackslash n}\,$\n$, \texttt{\textbackslash r}\,$\r$, \texttt{\textbackslash s}\,$\s$, \texttt{\textbackslash f}\,$\f$, \texttt{\textbackslash p}\,$\p$, \texttt{\textbackslash o}\,$\o$
+            \item Capitals: \texttt{\textbackslash D}\,$\D$, \texttt{\textbackslash G}\,$\G$, \texttt{\textbackslash L}\,$\L$, \texttt{\textbackslash S}\,$\S$, \texttt{\textbackslash T}\,$\T$, \texttt{\textbackslash F}\,$\F$, \texttt{\textbackslash O}\,$\O$, \texttt{\textbackslash X}\,$\X$, \texttt{\textbackslash U}\,$\U$
+        \end{itemize}
+        \item Blackboard: \texttt{\textbackslash R}\,$\R$, \texttt{\textbackslash N}\,$\N$, \texttt{\textbackslash Z}\,$\Z$, \texttt{\textbackslash Q}\,$\Q$, \texttt{\textbackslash C}\,$\C$, \texttt{\textbackslash V}\,$\V$
+        \item Calligraphic: \texttt{\textbackslash Ac}\,$\Ac$, \texttt{\textbackslash Bc}\,$\Bc$, \texttt{\textbackslash Fc}\,$\Fc$, \texttt{\textbackslash Nc}\,$\Nc$, \ldots, \texttt{\textbackslash Zc}\,$\Zc$
+        \item In combination, equations stay short
+        \begin{equation*}
+            y_{t} = \a + \b\, x_{t} + \e_{t}, \qquad \e_{t} \iid \Nc\bp{0,\,\s^{2}}, \qquad \E[t]{x_{t+1} \mid \Fc_{t}} \in \R
+        \end{equation*}
+    \end{itemize}
+\end{frame}
+
+\end{document}
