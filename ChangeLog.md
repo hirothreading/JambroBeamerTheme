@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-05-24 — Make theme biblatex- and `\bm`-friendly out of the box
+
+### Fixed
+- `beamerthemejambro.sty`: Removed the unconditional `\RequirePackage{natbib}` that v1.3-dev introduced. natbib and biblatex are mutually exclusive, so the theme as shipped hard-erroed (`! Package biblatex Error: Incompatible package 'natbib'.`) on any deck whose driver used biblatex/biber. The theme is now bibliography-agnostic: drivers that want natbib should `\usepackage{natbib}` themselves before `\usetheme{jambro}`.
+- `beamerthemejambro.sty`: Guarded the `\NAT@open` / `\NAT@close` recoloring with `\@ifpackageloaded{natbib}{...}{}`. Without the guard, the patch would have hit "undefined control sequence" the moment the theme stopped pulling natbib in itself.
+
+### Added
+- `beamerthemejambro.sty`: `\providecommand{\bm}{\boldsymbol}` immediately after `amsmath` / `mathtools` are loaded. The theme already burns enough of pdfLaTeX's 16-math-symbol-font slots (arev, upgreek, mathtools, braket, accents) that adding `\usepackage{bm}` in a driver trips "Too many symbol fonts declared". `\boldsymbol` ships with `amsmath` and allocates no new family, so authoring with `\bm{...}` now Just Works under the theme's default math stack. `\providecommand` means an explicit `\usepackage{bm}` from a driver that has trimmed its math stack still wins.
+- `biblatex-aer.tex`: Companion file copied in from the heathrow paper repo so the theme directory ships a ready-to-use AER-style biblatex configuration for slide drivers that prefer biber over natbib.
+
 ## 2026-03-26 — Restore full-width footline banner
 
 ### Fixed

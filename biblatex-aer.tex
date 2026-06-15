@@ -1,0 +1,54 @@
+\usepackage[authordate, backend=biber, uniquename=false, noibid, doi=false]{biblatex-chicago}
+
+\makeatletter
+\newrobustcmd{\blx@imc@transparentprinttext}[2][]{%
+  \ifblank{#2}
+    {}
+    {\ifblank{#1}
+       {\let\blx@theformat\@firstofone}
+       {\blx@getformat\blx@theformat{ffd}{#1}{}}%
+     \ifdefvoid\blx@theformat
+       {}
+       {\blx@theformat{#2}}}}
+
+\newcommand*{\blx@imc@iffieldequalstr@swap}[2]{\iffieldequalstr{#2}{#1}}
+
+\newcommand*{\blx@imc@iffieldequalsdefstring}[2]{%
+  \expandafter\blx@imc@iffieldequalstr@swap\expandafter{#2}{#1}}
+
+\blx@regimcs{\transparentprinttext \iffieldequalsdefstring}
+\makeatother
+
+\DeclareFieldFormat{citehyperref}{%
+  \DeclareFieldAlias{bibhyperref}{noformat}%
+  \bibhyperref{#1}}
+
+\letbibmacro{orig:cite}{cite}
+
+\renewbibmacro*{cite}{%
+  \transparentprinttext[citehyperref]{%
+    \usebibmacro{orig:cite}}}
+
+\letbibmacro{orig:textcite}{textcite}
+\letbibmacro{orig:textcite:postnote}{textcite:postnote}
+
+\renewbibmacro*{textcite:postnote}{}
+
+\renewbibmacro*{textcite}{%
+  \transparentprinttext[citehyperref]{%
+    \usebibmacro{orig:textcite}%
+    \ifnumequal{\value{citecount}}{\value{citetotal}}
+      {\usebibmacro{orig:textcite:postnote}}
+      {}%
+  }%
+}
+
+\newcommand\ifmknamebold{%
+  \ifboolexpr{test {\ifcurrentname{labelname}}
+              or
+              test {\iffieldequalsdefstring{labelnamesource}{\currentname}}}}
+
+\DeclareNameWrapperFormat{default}{\ifmknamebold{\mkbibbold{#1}}{#1}}
+\DeclareNameWrapperFormat{labelname}{#1}
+
+\DeclareDelimFormat{nameyeardelim}{\addcomma\space}

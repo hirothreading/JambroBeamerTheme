@@ -212,6 +212,16 @@
 % --- Additional math helpers used by public commands and demos ---
 \RequirePackage{amsmath,amssymb,amsfonts,mathtools,braket}
 
+% --- Bold math without busting pdfLaTeX's math-symbol-font cap ---
+% The theme already loads many math families (arev, upgreek, mathtools,
+% braket, plus accents via math.sty). Adding `bm` on top would exceed
+% pdfLaTeX's 16-symbol-font limit. Provide \bm as an alias for \boldsymbol
+% (from amsmath above) so slides authored with `\bm{...}` render without
+% requiring the user to load bm or hand-roll a `\providecommand` workaround.
+% \providecommand is used so explicit `\usepackage{bm}` in the driver still wins
+% if the user has dropped enough math packages to fit under the cap.
+\providecommand{\bm}{\boldsymbol}
+
 % --- Graphics, layout, and overlay support ---
 % This is the stack behind hand-drawn annotations, callouts, and dense tables.
 \RequirePackage{graphicx}
@@ -250,7 +260,13 @@
 }
 
 % --- Bibliography helpers ---
-\RequirePackage{natbib}
+% Do NOT \RequirePackage{natbib} from the theme: natbib and biblatex are
+% mutually exclusive, and forcing natbib makes the theme unusable with any
+% biblatex-based bibliography (the more common modern choice). Drivers that
+% want natbib should load it themselves before \usetheme{jambro}; the NAT@-
+% color patch later in this file is guarded with \@ifpackageloaded so it
+% only fires when natbib is in fact present.
+%\RequirePackage{natbib}
 
 
 %=============================================================================
@@ -1292,14 +1308,18 @@
 % Used by natbib to format blocks inside bibliography entries.
 \def\newblock{\hskip .11em plus .33em minus .07em}
 
-% --- Fix natbib citation parenthesis colors ---
+% --- Fix natbib citation parenthesis colors (only if natbib is loaded) ---
 % natbib emits its own opening/closing tokens outside Beamer's color templates,
 % so citations could pick up the wrong parenthesis color. Override the natbib
 % internals once here to keep citation punctuation aligned with the theme color.
-% This patch depends on natbib's private macro names.
+% Guarded with \@ifpackageloaded because \NAT@open / \NAT@close only exist
+% when natbib is in fact loaded; the theme no longer pulls in natbib itself,
+% so a biblatex driver would otherwise hit "undefined control sequence".
 \makeatletter
-\renewcommand{\NAT@open}{\textcolor{main}{(}}
-\renewcommand{\NAT@close}{\textcolor{main}{)}}
+\@ifpackageloaded{natbib}{%
+  \renewcommand{\NAT@open}{\textcolor{main}{(}}%
+  \renewcommand{\NAT@close}{\textcolor{main}{)}}%
+}{}
 \makeatother
 
 
